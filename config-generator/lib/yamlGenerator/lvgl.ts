@@ -164,14 +164,6 @@ export function generateLvglConfig(
   buttonRadius: number = 0,
   screens?: ScreenConfig[],
 ): string {
-  const s1 = screens?.find(s => s.id === 's1');
-  const s2 = screens?.find(s => s.id === 's2');
-  const s3 = screens?.find(s => s.id === 's3');
-
-  const s1BgImg = s1?.backgroundImage && s1.backgroundImage.trim() !== "" ? `\n      bg_img: s1_bg_image` : "";
-  const s2BgImg = s2?.backgroundImage && s2.backgroundImage.trim() !== "" ? `\n      bg_img: s2_bg_image` : "";
-  const s3BgImg = s3?.backgroundImage && s3.backgroundImage.trim() !== "" ? `\n      bg_img: s3_bg_image` : "";
-
   return `
 # --- DISPLAY PAGE CONFIG ---
 lvgl:
@@ -181,7 +173,7 @@ lvgl:
     - my_touchscreen
   pages:
     - id: page_s1
-      bg_color: \${s1_bg_color}${s1BgImg}
+      bg_color: \${s1_bg_color}
       on_swipe_left:
         - lvgl.page.show:
             id: page_s2
@@ -194,7 +186,7 @@ lvgl:
 ${generateScreenWidgets("s1", !hideClock, getSensor, buttonRadius)}
 
     - id: page_s2
-      bg_color: \${s2_bg_color}${s2BgImg}
+      bg_color: \${s2_bg_color}
       on_swipe_left:
         - lvgl.page.show:
             id: page_s3
@@ -207,7 +199,7 @@ ${generateScreenWidgets("s1", !hideClock, getSensor, buttonRadius)}
 ${generateScreenWidgets("s2", false, getSensor, buttonRadius)}
 
     - id: page_s3
-      bg_color: \${s3_bg_color}${s3BgImg}
+      bg_color: \${s3_bg_color}
       on_swipe_left:
         - lvgl.page.show:
             id: page_s1

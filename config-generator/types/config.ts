@@ -172,7 +172,6 @@ export interface ScreenConfig {
   id: string; // e.g., "s1", "s2", "s3"
   name: string; // e.g., "Screen 1"
   backgroundColor?: string; // HTML Hex, e.g., "#0f1419"
-  backgroundImage?: string; // e.g., "images/bg_home.png" (compiled in Flash)
   fontColor?: string; // HTML Hex, e.g., "#ffffff"
   sensors: SensorConfig[];
 }

@@ -187,27 +187,6 @@ export default function ConfigForm({
                   />
                 </div>
               </div>
-              <div className="flex-grow min-w-[200px]">
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Background Image Path (Leave empty for none)
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. images/bg_home.png"
-                  value={config.screens?.[activeScreenIndex]?.backgroundImage || ''}
-                  onChange={(e) => {
-                    const newScreens = [...(config.screens || [])];
-                    if (newScreens[activeScreenIndex]) {
-                      newScreens[activeScreenIndex] = {
-                        ...newScreens[activeScreenIndex],
-                        backgroundImage: e.target.value,
-                      };
-                      onChange({ ...config, screens: newScreens });
-                    }
-                  }}
-                  className="w-full px-3 h-10 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
             </div>
           </div>
         </div>
