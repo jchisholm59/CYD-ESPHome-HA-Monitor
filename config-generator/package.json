@@ -1,0 +1,41 @@
+{
+  "name": "cyd-hamon-config-generator",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://element-software.github.io/CYD-ESPHome-HA-Monitor",
+  "scripts": {
+    "test": "jest",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npx serve out",
+    "lint": "next lint",
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "generate:og": "node scripts/generate-og-images.mjs",
+    "deploy": "npm run build && gh-pages -d .next -b gh-pages -r https://github.com/element-software/CYD-ESPHome-HA-Monitor.git"
+  },
+  "dependencies": {
+    "@material-design-icons/font": "^0.14.15",
+    "next": "^16",
+    "next-intl": "^4.8.3",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "overrides": {
+    "@swc/helpers": "^0.5.19"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^10",
+    "eslint-config-next": "^16",
+    "jest": "^30.2.0",
+    "postcss": "^8",
+    "sharp": "^0.33.5",
+    "tailwindcss": "^4.1",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,24 @@
+Why it failed previously:
+  In next.config.js, this project is configured to build as a static HTML website (output: 'export'). This means when you
+  run npm run build, Next.js compiles the entire project into pure, lightweight static files inside the /out directory.
+
+  However, the default "start": "next start" command expects a Node.js-based dynamic server build. Running next start on a
+  static export fails because Next.js has no dynamic server-side files to execute.
+
+  ---
+
+  The Solution:
+  I have updated package.json to change the start script to:
+   1 "start": "npx serve out"
+
+  Now, when you want to run the optimized production version of this project:
+
+   1. Build the production static files:
+
+   1    npm run build
+   2. Serve the production folder:
+
+   1    npm start
+
+  This will automatically download and start a lightweight, production-ready static server (serve) to serve your /out
+  directory. It is fast, safe, uses almost no resources, and will run perfectly on any machine you export the project to!

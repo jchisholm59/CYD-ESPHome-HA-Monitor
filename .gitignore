@@ -1,0 +1,30 @@
+# ESPHome build artifacts
+.esphome/
+*.bin
+*.elf
+*.map
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Config Generator Sub-project ignores
+config-generator/node_modules/
+config-generator/.next/
+config-generator/out/
+config-generator/build/
+config-generator/*.tsbuildinfo
+config-generator/next-env.d.ts
+config-generator.zip
