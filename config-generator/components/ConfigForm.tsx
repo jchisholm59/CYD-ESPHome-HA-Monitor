@@ -239,6 +239,9 @@ export default function ConfigForm({
                     />
                   </label>
                 </div>
+                <p className="mt-1.5 text-xs text-gray-500 leading-normal">
+                  💡 <strong>Note:</strong> You must also copy/upload this image file to your Home Assistant machine at <code>/config/esphome/images/</code> so ESPHome can find it during compilation.
+                </p>
               </div>
             </div>
           </div>
