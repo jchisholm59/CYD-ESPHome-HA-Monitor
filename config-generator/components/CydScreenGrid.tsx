@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { ConfigData, IconSet, SensorConfig, NumericSensorConfig } from '@/types/config';
 import { cydColorToCss, readableColor } from '@/lib/colorUtils';
 import { getIconFontClass, iconCodeToLigature } from '@/lib/icons';
+import { previewImageCache } from '@/lib/previewImageCache';
 import CydClock from './CydClock';
 
 /** Device-matching colors (dark blue/black bg, cyan labels, white values) */
@@ -328,10 +329,24 @@ export default function CydScreenGrid({ config, activeScreenIndex = 0 }: CydScre
   const screenBg = currentScreen.backgroundColor || '#0f1419';
   const screenFont = currentScreen.fontColor || '#ffffff';
 
+  // Resolve background image if set
+  let bgStyle: React.CSSProperties = { backgroundColor: screenBg };
+  const bgImgPath = 'backgroundImage' in currentScreen ? currentScreen.backgroundImage : undefined;
+  if (bgImgPath && bgImgPath.trim() !== '') {
+    const resolvedUrl = previewImageCache.get(bgImgPath) || bgImgPath;
+    bgStyle = {
+      ...bgStyle,
+      backgroundImage: `url(${resolvedUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+
   return (
     <div
       className="flex flex-col h-full w-full overflow-hidden"
-      style={{ backgroundColor: screenBg }}
+      style={bgStyle}
     >
       {showClockOnThisScreen && <CydClock fontColor={screenFont} />}
 

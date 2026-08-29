@@ -1,6 +1,7 @@
 'use client';
 
 import { ConfigData } from '@/types/config';
+import { previewImageCache } from '@/lib/previewImageCache';
 import DeviceSettingsCard from './DeviceSettingsCard';
 import SensorList from './SensorList';
 
@@ -191,22 +192,53 @@ export default function ConfigForm({
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                   Background Image Path (Leave empty for none)
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. images/bg_home.png"
-                  value={config.screens?.[activeScreenIndex]?.backgroundImage || ''}
-                  onChange={(e) => {
-                    const newScreens = [...(config.screens || [])];
-                    if (newScreens[activeScreenIndex]) {
-                      newScreens[activeScreenIndex] = {
-                        ...newScreens[activeScreenIndex],
-                        backgroundImage: e.target.value,
-                      };
-                      onChange({ ...config, screens: newScreens });
-                    }
-                  }}
-                  className="w-full px-3 h-10 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="e.g. images/bg_home.png"
+                    value={config.screens?.[activeScreenIndex]?.backgroundImage || ''}
+                    onChange={(e) => {
+                      const newScreens = [...(config.screens || [])];
+                      if (newScreens[activeScreenIndex]) {
+                        newScreens[activeScreenIndex] = {
+                          ...newScreens[activeScreenIndex],
+                          backgroundImage: e.target.value,
+                        };
+                        onChange({ ...config, screens: newScreens });
+                      }
+                    }}
+                    className="flex-1 px-3 h-10 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <label className="flex items-center justify-center px-4 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors text-sm border border-gray-300 cursor-pointer shrink-0">
+                    Choose Image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          // Standard ESPHome path convention for the config
+                          const esphomePath = `images/${file.name}`;
+                          
+                          // Set preview in cache
+                          const blobUrl = URL.createObjectURL(file);
+                          previewImageCache.set(esphomePath, blobUrl);
+                          
+                          // Update config
+                          const newScreens = [...(config.screens || [])];
+                          if (newScreens[activeScreenIndex]) {
+                            newScreens[activeScreenIndex] = {
+                              ...newScreens[activeScreenIndex],
+                              backgroundImage: esphomePath,
+                            };
+                            onChange({ ...config, screens: newScreens });
+                          }
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
