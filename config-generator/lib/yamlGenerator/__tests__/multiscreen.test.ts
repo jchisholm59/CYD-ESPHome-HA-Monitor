@@ -100,4 +100,44 @@ describe("Multi-screen state and generation", () => {
       }
     }
   });
+
+  it("generates correct background image configurations with platform: file and bg_image_src", () => {
+    const configWithImage: ConfigData = {
+      ...defaultConfig,
+      screens: [
+        {
+          id: "s1",
+          name: "Screen 1",
+          backgroundColor: "#0f1419",
+          fontColor: "#ffffff",
+          backgroundImage: "images/my_cool_bg.png",
+          sensors: []
+        },
+        {
+          id: "s2",
+          name: "Screen 2",
+          sensors: []
+        },
+        {
+          id: "s3",
+          name: "Screen 3",
+          sensors: []
+        }
+      ]
+    };
+
+    const yaml = generateYaml(configWithImage);
+
+    // Verify image assets block exists with platform: file
+    expect(yaml).toContain("# --- IMAGE ASSETS (Compiled in Flash) ---");
+    expect(yaml).toContain("image:");
+    expect(yaml).toContain("- platform: file");
+    expect(yaml).toContain("file: \"images/my_cool_bg.png\"");
+    expect(yaml).toContain("id: s1_bg_image");
+    expect(yaml).toContain("resize: 320x240");
+    expect(yaml).toContain("type: RGB565");
+
+    // Verify LVGL configuration references the background image correctly via bg_image_src
+    expect(yaml).toContain("bg_image_src: s1_bg_image");
+  });
 });

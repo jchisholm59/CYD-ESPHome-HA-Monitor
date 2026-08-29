@@ -18,6 +18,29 @@ import { generateNumericSensorConfig, generateTextValueSensorConfig } from "./nu
 import { generateLightConfig } from "./light";
 import { migrateConfig } from "@/lib/useLocalStorageConfig";
 
+function generateImageConfig(config: ConfigData): string {
+  const screens = config.screens || [];
+  const lines: string[] = [];
+  
+  // Find any screens with background images configured
+  const screensWithImages = screens.filter(s => s.backgroundImage && s.backgroundImage.trim() !== "");
+  
+  if (screensWithImages.length === 0) return "";
+  
+  lines.push(`# --- IMAGE ASSETS (Compiled in Flash) ---`);
+  lines.push(`image:`);
+  screensWithImages.forEach(s => {
+    lines.push(`  - platform: file`);
+    lines.push(`    file: "${s.backgroundImage!.trim()}"`);
+    lines.push(`    id: ${s.id}_bg_image`);
+    lines.push(`    resize: 320x240`);
+    lines.push(`    type: RGB565`);
+  });
+  lines.push(``);
+  
+  return lines.join("\n");
+}
+
 export function generateYaml(config: ConfigData): string {
   const migrated = migrateConfig(config);
   const { hideClock } = migrated;
@@ -42,6 +65,7 @@ export function generateYaml(config: ConfigData): string {
   return (
     generateHeader() +
     generateSubstitutions(migrated, allSensors, getSensor) +
+    generateImageConfig(migrated) +
     generateBoilerplate(migrated) +
     generateLvglConfig(allSensors, getSensor, hideClock ?? false, migrated.buttonRadius ?? 0, migrated.screens) +
     generateBinarySensorConfig(binarySensors, lightSensors, inputBooleanSensors) +
