@@ -114,7 +114,6 @@ display:
     id: my_display
     cs_pin: GPIO15
     dc_pin: GPIO02
-    reset_pin: -1
     invert_colors: false
     show_test_card: false
     pixel_mode: 16bit
