@@ -17,9 +17,8 @@ preferences:
 
 esp32:
   board: esp32dev
-  flash_size: 4MB
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
   level: INFO
@@ -46,7 +45,7 @@ interval:
       - http_request.get:
           # IMPORTANT: Change this IP address to your Mac's local IP address
           # where you are running the 'skyaware_proxy.py' server!
-          url: "http://192.168.50.108:5050/nearby"
+          url: "http://192.168.50.XXX:5050/nearby"
           request_headers:
             Accept: application/json
           capture_response: true
@@ -90,10 +89,12 @@ font:
     id: roboto_12
     size: 12
 
+# Standard SPI configuration copied exactly from ha-monitor.yaml
 spi:
-  clk_pin: GPIO14
-  mosi_pin: GPIO13
-  miso_pin: GPIO12
+  - id: tft
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
 
 # Backlight Control (Standard CYD Backlight is on GPIO21)
 output:
@@ -108,20 +109,21 @@ light:
     id: backlight
     restore_mode: ALWAYS_ON
 
+# Display configuration copied exactly from your working ha-monitor.yaml
 display:
   - platform: ili9xxx
     model: ILI9341
     id: my_display
+    spi_id: tft
     cs_pin: GPIO15
-    dc_pin: GPIO02
+    dc_pin: GPIO2
+    auto_clear_enabled: false
     invert_colors: false
-    show_test_card: false
-    pixel_mode: 16bit
-    color_order: bgr
+    color_order: RGB
     rotation: 90
     dimensions:
-      height: 320
       width: 240
+      height: 320
     update_interval: 1s
 
     lambda: |-
